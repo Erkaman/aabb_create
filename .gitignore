@@ -1,0 +1,9 @@
+*.ttf
+a.out
+*.png
+*.amf
+*.dSym/
+build/
+makefile
+*.obj
+*.mtl
