@@ -43,6 +43,7 @@ using std::stringstream;
 using std::stof;
 using std::invalid_argument;
 using std::ostream;
+using std::ofstream;
 
 struct Vector {
 
@@ -67,7 +68,7 @@ public:
     }
 
     friend ostream& operator<<(ostream& os, const Vector& v) {
-	os << "(" << v.x << "," << v.y << "," << v.z << ")";
+	os << v.x << " " << v.y << " " << v.z;
 	return os;
     }
 };
@@ -100,10 +101,7 @@ int main(int argc, char *argv[] ) {
     // last arguent is input file
     const string inputFile = string(argv[argc-1]);
 
-
-
-
-    cout << "input file: " << inputFile << endl;
+    const string outputFile = StripFileExtension(inputFile) + ".aabb";
 
     ifstream file (inputFile);
 
@@ -169,22 +167,25 @@ int main(int argc, char *argv[] ) {
 	    if (proj > maxproj[iaxis]) {
 		maxproj[iaxis] = proj;
 		vmax[iaxis] = pt;
-
-//		*imax = i;
 	    }
 
 	}
 
     }
 
-    cout << "xmin " << vmin[0] << endl;
-    cout << "xmax " << vmax[0] << endl;
+    /*
+      Output AABB
+     */
 
-    cout << "ymin " << vmin[1] << endl;
-    cout << "ymax " << vmax[1] << endl;
+    Vector min(vmin[0].x, vmin[1].y, vmin[2].z);
+    Vector max(vmax[0].x, vmax[1].y, vmax[2].z);
 
-    cout << "zmin " << vmin[2] << endl;
-    cout << "zmax " << vmax[2] << endl;
+
+    ofstream outFile(outputFile);
+    outFile << "max " << max << endl;
+    outFile << "min " << min << endl;
+
+    outFile.close();
 
 
 }
@@ -197,12 +198,7 @@ string StripFileExtension(const string& str) {
 
 void PrintHelp() {
     printf("Usage:\n");
-    printf("aabb_create [FLAGS] input-file\n\n");
-
-//    printf("Flags:\n");
-//    printf("\t-h,--help\t\tPrint this message\n");
-//    printf( "\t-fs,--font-size\t\tFont size. Default value: %d\n", FONT_SIZE_DEFALT );
-
+    printf("aabb_create input-file\n\n");
 }
 
 vector<string> Split(string str) {
