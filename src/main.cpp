@@ -111,6 +111,13 @@ int main(int argc, char *argv[] ) {
 
     string line;
 
+    /*
+      To compute the AABB, we use the algorithm specified in section 4.2.4 of
+      "Real-time collision detection", by Christer Ericson.
+     */
+
+
+
     Vector axes[] = {
 	Vector(1,0,0),
 	Vector(0,1,0),
